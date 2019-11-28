@@ -5,7 +5,7 @@ import time
 from IPython import display
 
 # Implemented methods
-methods = ['DynProg'];
+methods = ['DynProg', 'ValIter'];
 
 # Some colours
 LIGHT_RED    = '#FFC4CC';
@@ -173,6 +173,28 @@ class Maze:
                 # Update time and state for next iteration
                 t +=1;
                 s = next_s;
+        elif method == 'ValIter':
+            # Initialize current state, next state and time
+            t = 1;
+            s = self.map[start];
+            # Add the starting position in the maze to the path
+            path.append(start);
+            # Move to next state given the policy and the current state
+            next_s = random.choice(self.__move(s,policy[s]));
+            # Add the position in the maze corresponding to the next state
+            # to the path
+            path.append(self.states[next_s]);
+            # Loop while state is not a terminal state
+            while next_s not in self.eaten and next_s not in self.exits:
+                # Update state
+                s = next_s;
+                # Move to next state given the policy and the current state
+                next_s = random.choice(self.__move(s,policy[s]));
+                # Add the position in the maze corresponding to the next state
+                # to the path
+                path.append(self.states[next_s])
+                # Update time and state for next iteration
+                t +=1;
         return path
 
 
@@ -230,6 +252,62 @@ def dynamic_programming(env, horizon):
         V[:,t] = np.max(Q,1);
         # The optimal action is the one that maximizes the Q function
         policy[:,t] = np.argmax(Q,1);
+    return V, policy;
+
+def value_iteration(env, gamma, epsilon):
+    """ Solves the shortest path problem using value iteration
+        :input Maze env           : The maze environment in which we seek to
+                                    find the shortest path.
+        :input float gamma        : The discount factor.
+        :input float epsilon      : accuracy of the value iteration procedure.
+        :return numpy.array V     : Optimal values for every state at every
+                                    time, dimension S*T
+        :return numpy.array policy: Optimal time-varying policy at every state,
+                                    dimension S*T
+    """
+    # The value itearation algorithm requires the knowledge of :
+    # - Transition probabilities
+    # - Rewards
+    # - State space
+    # - Action space
+    # - The finite horizon
+    p         = env.transition_probabilities;
+    r         = env.rewards;
+    n_states  = env.n_states;
+    n_actions = env.n_actions;
+
+    # Required variables and temporary ones for the VI to run
+    V   = np.zeros(n_states);
+    Q   = np.zeros((n_states, n_actions));
+    BV  = np.zeros(n_states);
+    # Iteration counter
+    n   = 0;
+    # Tolerance error
+    tol = (1 - gamma)* epsilon/gamma;
+
+    # Initialization of the VI
+    for s in range(n_states):
+        for a in range(n_actions):
+            Q[s, a] = r[s, a] + gamma*np.dot(p[:,s,a],V);
+    BV = np.max(Q, 1);
+
+    # Iterate until convergence
+    while np.linalg.norm(V - BV) >= tol and n < 200:
+        # Increment by one the numbers of iteration
+        n += 1;
+        # Update the value function
+        V = np.copy(BV);
+        # Compute the new BV
+        for s in range(n_states):
+            for a in range(n_actions):
+                Q[s, a] = r[s, a] + gamma*np.dot(p[:,s,a],V);
+        BV = np.max(Q, 1);
+        # Show error
+        #print(np.linalg.norm(V - BV))
+
+    # Compute policy
+    policy = np.argmax(Q,1);
+    # Return the obtained policy
     return V, policy;
 
 def draw_maze(maze):
