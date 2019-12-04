@@ -15,8 +15,8 @@ EPISODES = 1000 #Maximum number of episodes
 class DQNAgent:
     #Constructor for the agent (invoked when DQN is first called in main)
     def __init__(self, state_size, action_size):
-        self.check_solve = False	#If True, stop if you satisfy solution confition
-        self.render = False        #If you want to see Cartpole learning, then change to True
+        self.check_solve = True   #If True, stop if you satisfy solution confition
+        self.render = True        #If you want to see Cartpole learning, then change to True
 
         #Get size of state and action
         self.state_size = state_size
@@ -76,10 +76,10 @@ class DQNAgent:
         #Tip 1: Use the random package to generate a random action.
         #Tip 2: Use keras.model.predict() to compute Q-values from the state.
         criterion = random.uniform(0, 1.0)
-        if (criterion < self.epsilon):  # random action with probability of epsilon
+        Q_value = self.model.predict(state)# Q_value at the given state.
+        if criterion < self.epsilon :  # random action with probability of epsilon
             action = random.choice(range(self.action_size))
         else:
-            Q_value = self.model.predict(state)  # Q_value at the given state.
             action = np.argmax(Q_value)
         return action
 ###############################################################################
