@@ -115,8 +115,12 @@ class DQNAgent:
         #Insert your Q-learning code here
         #Tip 1: Observe that the Q-values are stored in the variable target
         #Tip 2: What is the Q-value of the action taken at the last state of the episode?
-        for i in range(self.batch_size): #For every batch
-            target[i][action[i]] = random.randint(0,1)
+        # TO Hara, I think I finished it I followed the DQN algorithm on page 8 of Part 7. Please check it !!
+        for i in range(self.batch_size):
+            if done[i]:
+                target[i][action[i]] = reward[i]
+            else:
+                target[i][action[i]] = reward[i] + self.discount_factor * np.max(target_val[i])
 ###############################################################################
 ###############################################################################
 
