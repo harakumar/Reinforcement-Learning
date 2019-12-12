@@ -82,3 +82,17 @@ self.learning_rate = 0.001
 self.memory_size = 1000
 self.target_update_frequency = 1
 Keras: input-32-32-output
+
+Experiment 13 (E13) *Kim is doing
+self.discount_factor = 0.995
+self.learning_rate = 0.001
+self.memory_size = 10000 #Made much larger
+self.target_update_frequency = 5
+Keras: input-32-32-output
+
+Experiment 14 (E14) *check_solver = True
+self.discount_factor = 0.97
+self.learning_rate = 0.001
+self.memory_size = 1500
+self.target_update_frequency = 1
+Keras: input-32-32-output
