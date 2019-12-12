@@ -11,6 +11,7 @@ self.learning_rate = 0.001
 self.memory_size = 1000
 self.target_update_frequency = 5
 Keras: input-32-32-output
+Solved In: 502
 
 Experiment 3 (E3)
 self.discount_factor = 0.995
@@ -18,3 +19,11 @@ self.learning_rate = 0.001
 self.memory_size = 1000
 self.target_update_frequency = 5
 Keras: input-1024-output
+Solved In: 618
+
+Experiment 4 (E4)
+self.discount_factor = 0.995
+self.learning_rate = 0.0001 #Made smaller by factor of 10
+self.memory_size = 1000
+self.target_update_frequency = 5
+Keras: input-32-32-output
