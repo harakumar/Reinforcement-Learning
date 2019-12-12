@@ -51,6 +51,34 @@ Keras: input-32-32-output
 Experiment 8 (E8)
 self.discount_factor = 0.995
 self.learning_rate = 0.001
-self.memory_size = 500
+self.memory_size = 500 #Made smaller
 self.target_update_frequency = 5
+Keras: input-32-32-output
+
+Experiment 9 (E9)
+self.discount_factor = 0.995
+self.learning_rate = 0.001
+self.memory_size = 1500 #Made larger
+self.target_update_frequency = 5
+Keras: input-32-32-output
+
+Experiment 10 (E10)
+self.discount_factor = 0.995
+self.learning_rate = 0.001
+self.memory_size = 1000
+self.target_update_frequency = 10
+Keras: input-32-32-output
+
+Experiment 11 (E11)
+self.discount_factor = 0.995
+self.learning_rate = 0.001
+self.memory_size = 1000
+self.target_update_frequency = 2
+Keras: input-32-32-output
+
+Experiment 12 (E12)
+self.discount_factor = 0.995
+self.learning_rate = 0.001
+self.memory_size = 1000
+self.target_update_frequency = 1
 Keras: input-32-32-output
